@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sagesse Musulmane - Hadiths</title>
+    <style>
+        body { 
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f4f2;
+            background-image: url("https://www.transparenttextures.com/patterns/islamic-art.png");
+            font-family: 'Segoe UI', Roboto, sans-serif;
+        }
+        .container { 
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            border: 2px solid #ffffff;
+        }
+        h1 { 
+            color: #2d5a27; 
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        #hadith-box { min-height: 180px; }
+        p { 
+            font-size: 1.4em; 
+            color: #444; 
+            line-height: 1.5; 
+            font-style: italic;
+        }
+        .source { 
+            color: #27ae60; 
+            font-weight: bold;
+            margin-top: 15px;
+            display: block;
+        }
+        button { 
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white; 
+            border: none; 
+            padding: 15px 35px; 
+            border-radius: 50px; 
+            cursor: pointer; 
+            font-size: 1.1em; 
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+            margin-top: 20px;
+        }
+        button:active { transform: scale(0.95); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Sagesse Musulmane</h1>
+    <div id="hadith-box">
+        <p id="hadith-text">"Chargement du rappel..."</p>
+        <span id="hadith-source" class="source"></span>
+    </div>
+    <button onclick="nouveauHadith()">Voir un autre Hadith</button>
+</div>
+
+<script>
+const hadiths = [
+    { text: "Les actions ne valent que par les intentions.", source: "Al-Boukhari" },
+    { text: "Le meilleur d'entre vous est celui qui est le meilleur avec sa famille.", source: "At-Tirmidhi" },
+    { text: "Une bonne parole est une aumône.", source: "Al-Boukhari" },
+    { text: "La propreté fait partie de la foi.", source: "Muslim" },
+    { text: "Le plus fort est celui qui se maîtrise lors de la colère.", source: "Al-Boukhari" },
+    { text: "Allah est beau et Il aime la beauté.", source: "Muslim" },
+    { text: "Facilitez les choses et ne les rendez pas difficiles.", source: "Al-Boukhari" },
+    { text: "Nul d'entre vous n'est véritablement croyant tant qu'il n'aime pas pour son frère ce qu'il aime pour lui-même.", source: "Al-Boukhari" },
+    { text: "L'homme suit la religion de son ami intime. Que chacun de vous regarde donc qui il prend pour ami.", source: "Abu Dawud" },
+    { text: "Le Paradis se trouve sous les pieds des mères.", source: "An-Nasa'i" },
+    { text: "Craignez Allah où que vous soyez.", source: "At-Tirmidhi" },
+    { text: "Le meilleur des hommes est le plus utile aux autres.", source: "At-Tabarani" },
+    { text: "Le croyant n'est pas celui qui mange à sa faim alors que son voisin a faim.", source: "Al-Hakim" },
+    { text: "Préservez-vous de l'enfer, ne serait-ce que par la moitié d'une datte offerte en aumône.", source: "Al-Boukhari" },
+    { text: "Celui qui ne remercie pas les gens ne remercie pas Allah.", source: "At-Tirmidhi" },
+    { text: "Le riche n'est pas celui qui possède beaucoup de biens, mais celui qui a la richesse de l'âme.", source: "Al-Boukhari" },
+    { text: "L'Islam consiste à ce que tu nourrisses les pauvres et que tu salues ceux que tu connais et ceux que tu ne connais pas.", source: "Al-Boukhari" },
+    { text: "La pudeur n'apporte que le bien.", source: "Al-Boukhari" },
+    { text: "Le meilleur rappel est : La ilaha illa Allah.", source: "At-Tirmidhi" },
+    { text: "Celui qui emprunte un chemin pour rechercher la science, Allah lui facilite un chemin vers le Paradis.", source: "Muslim" },
+    { text: "L'Islam a commencé étranger et redeviendra étranger comme il a commencé.", source: "Muslim" },
+    { text: "Le musulman est celui dont les gens n'ont à craindre ni la langue ni la main.", source: "Al-Boukhari" },
+    { text: "Allah ne regarde pas vos corps ni vos visages, mais Il regarde vos cœurs.", source: "Muslim" },
+    { text: "Le plus aimé d'Allah est celui qui est le plus utile aux gens.", source: "Al-Asbahani" },
+    { text: "Écartez-vous de l'envie, car l'envie dévore les bonnes actions comme le feu dévore le bois.", source: "Abu Dawud" },
+    { text: "Celui qui croit en Allah et au Jour dernier, qu'il dise du bien ou qu'il se taise.", source: "Al-Boukhari" },
+    { text: "Le repentir efface le péché comme s'il n'avait existé.", source: "Ibn Majah" },
+    { text: "Quiconque cache les défauts d'un musulman, Allah cachera les siens.", source: "Muslim" },
+    { text: "N'insultez pas les morts, car ils ont déjà rejoint ce qu'ils ont avancé.", source: "Al-Boukhari" },
+    { text: "La main qui donne est meilleure que la main qui reçoit.", source: "Al-Boukhari" },
+    { text: "Celui qui appelle à une bonne direction aura une récompense égale.", source: "Muslim" },
+    { text: "Le jeûne est un bouclier.", source: "Al-Boukhari" },
+    { text: "La patience est une lumière.", source: "Muslim" },
+    { text: "Le monde d'ici-bas est la prison du croyant et le paradis du mécréant.", source: "Muslim" },
+    { text: "Soyez dans ce monde comme un étranger ou un voyageur.", source: "Al-Boukhari" },
+    { text: "Rechercher la science est une obligation pour chaque musulman.", source: "Ibn Majah" },
+    { text: "Toute bonne action est une aumône.", source: "Al-Boukhari" },
+    { text: "Le meilleur Jihad est de dire une vérité devant un dirigeant injuste.", source: "Abu Dawud" },
+    { text: "Celui qui rompt les liens de parenté n'entrera pas au Paradis.", source: "Al-Boukhari" },
+    { text: "Rendez les dépôts à ceux qui vous les ont confiés.", source: "At-Tirmidhi" },
+    { text: "Celui qui ne fait pas miséricorde, on ne lui fera pas miséricorde.", source: "Al-Boukhari" },
+    { text: "Le serviteur ne cesse d'être aidé tant qu'il aide son frère.", source: "Muslim" },
+    { text: "Le bas-monde ne vaut pas l'aile d'un moustique.", source: "At-Tirmidhi" },
+    { text: "Le meilleur d'entre vous apprend le Coran et l'enseigne.", source: "Al-Boukhari" },
+    { text: "Celui qui se tait est sauvé.", source: "At-Tirmidhi" },
+    { text: "Le vrai riche est celui qui se contente de ce qu'il a.", source: "Al-Boukhari" },
+    { text: "Évitez les sept péchés capitaux.", source: "Al-Boukhari" },
+    { text: "Allah aide Son serviteur tant qu'il aide son frère.", source: "Muslim" },
+    { text: "Le plus parfait des croyants a le meilleur caractère.", source: "At-Tirmidhi" },
+    { text: "Invoquez Allah avec la certitude d'être exaucé.", source: "At-Tirmidhi" },
+    { text: "La religion est la sincérité.", source: "Muslim" },
+    { text: "Respectez les petits et reconnaissez le droit des grands.", source: "At-Tirmidhi" },
+    { text: "Le meilleur jeûne après le Ramadan est celui de Muharram.", source: "Muslim" },
+    { text: "Le croyant est simple et généreux.", source: "At-Tirmidhi" },
+    { text: "La prière en commun surpasse de 27 degrés la prière seule.", source: "Al-Boukhari" },
+    { text: "Cherchez la réponse aux invocations quand les cœurs tremblent.", source: "Al-Boukhari" },
+    { text: "Craignez le feu de l'Enfer par une demi-datte d'aumône.", source: "Al-Boukhari" },
+    { text: "Le musulman est le frère du musulman.", source: "Muslim" },
+    { text: "Prends l'initiative de cinq choses avant cinq autres.", source: "Al-Hakim" },
+    { text: "Allah est satisfait du serviteur qui Le loue après avoir mangé.", source: "Muslim" },
+    { text: "Ayez une confiance totale en Allah, Il vous nourrira.", source: "At-Tirmidhi" },
+    { text: "Aucun souci n'efface une partie des péchés sans raison.", source: "Al-Boukhari" },
+    { text: "La meilleure aumône est faite par celui qui a peu.", source: "Abu Dawud" },
+    { text: "La prière est le pilier de la religion.", source: "Al-Bayhaqi" },
+    { text: "Le Paradis est plus proche de vous que votre lacet de sandale.", source: "Al-Boukhari" },
+    { text: "Priez pour les croyants, vous aurez une bonne action pour chacun.", source: "At-Tabarani" },
+    { text: "Le monde est provision, et la femme pieuse est la meilleure.", source: "Muslim" },
+    { text: "Craignez l'invocation de l'opprimé.", source: "Al-Boukhari" },
+    { text: "Intéressez-vous au sort des musulmans.", source: "At-Tabarani" },
+    { text: "Le plus aimé est celui qui a le meilleur caractère.", source: "At-Tabarani" },
+    { text: "Allah est Miséricordieux et aime la miséricorde.", source: "Al-Boukhari" },
+    { text: "Le meilleur jeûne est celui de mon frère Daoud.", source: "Al-Boukhari" },
+    { text: "Soyez véridiques, la vérité mène à la piété.", source: "Al-Boukhari" },
+    { text: "Le croyant est le miroir de son frère.", source: "Abu Dawud" },
+    { text: "La main d'Allah est avec le groupe.", source: "At-Tirmidhi" },
+    { text: "La meilleure prière après l'obligatoire est celle de nuit.", source: "Muslim" },
+    { text: "L'Heure ne viendra pas avant l'adoration des idoles.", source: "Muslim" },
+    { text: "Le malheur est lié à la parole.", source: "Al-Asbahani" },
+    { text: "Un homme est avec celui qu'il aime.", source: "Al-Boukhari" },
+    { text: "La richesse réside dans le contentement du cœur.", source: "Al-Boukhari" },
+    { text: "Le plus généreux est le plus pieux.", source: "Coran / Hadith" },
+    { text: "L'Islam efface ce qui le précède.", source: "Muslim" },
+    { text: "Chaque boisson qui enivre est interdite.", source: "Al-Boukhari" },
+    { text: "La foi comporte soixante et quelques branches.", source: "Al-Boukhari" },
+    { text: "Le Paradis a huit portes.", source: "Al-Boukhari" },
+    { text: "La prière en groupe est 25 fois supérieure.", source: "Al-Boukhari" },
+    { text: "Construisez une mosquée, Allah vous construira une maison au Paradis.", source: "Muslim" },
+    { text: "Le voyage est une partie du tourment.", source: "Al-Boukhari" },
+    { text: "Faites votre travail avec perfection.", source: "Al-Bayhaqi" },
+    { text: "La meilleure aumône est de donner à boire de l'eau.", source: "An-Nasa'i" },
+    { text: "Le croyant est comme une abeille : il ne mange que du bon.", source: "Al-Hakim" },
+    { text: "Évitez la suspicion, c'est le plus mensonger des propos.", source: "Al-Boukhari" },
+    { text: "Les meilleures actions sont les plus constantes.", source: "Al-Boukhari" },
+    { text: "Nourrir les gens et passer le Salam est le meilleur de l'Islam.", source: "Al-Boukhari" },
+    { text: "Faites miséricorde aux gens pour qu'Allah vous la fasse.", source: "Al-Boukhari" },
+    { text: "La piété est de croire en Allah de tout son cœur.", source: "Coran / Hadith" },
+    { text: "Le croyant est celui dont les voisins sont en sécurité.", source: "Ahmad" },
+    { text: "Cherchez la science du berceau jusqu'à la tombe.", source: "Sagesse" }
+];
+
+function nouveauHadith() {
+    const index = Math.floor(Math.random() * hadiths.length);
+    document.getElementById('hadith-text').innerText = "« " + hadiths[index].text + " »";
+    document.getElementById('hadith-source').innerText = "— " + hadiths[index].source;
+}
+
+window.onload = nouveauHadith;
+</script>
+
+<script src="https://pl28426801.effectivegatecpm.com/31/70/17/317017ae85b9d827039ca3da8ac3e9ea.js"></script>
+<script src="https://pl28367845.effectivegatecpm.com/c5/50/00/c55000a444b71daa30647afc88592cc8.js"></script>
+
+</body>
+</html>
